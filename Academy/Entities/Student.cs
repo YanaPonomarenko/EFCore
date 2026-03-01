@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,5 +15,6 @@ public class Student
     public string Email { get; set; } = string.Empty;
     public DateTime DateOfBirth { get; set; }
     public int GroupId { get; set; }
-    public Group Group { get; set; } 
+    public Group Group { get; set; }
+    public List<Grade> Grades { get; set; } = new();
 }
