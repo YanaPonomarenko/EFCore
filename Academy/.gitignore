@@ -1,0 +1,11 @@
+﻿
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+.vs/
+*.user
+*.suo
+.idea/
+*.nupkg
