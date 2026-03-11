@@ -1,0 +1,11 @@
+C:\Users\ypono\source\repos\Shop\Shop.Domain\bin\Debug\net8.0\Shop.Domain.deps.json
+C:\Users\ypono\source\repos\Shop\Shop.Domain\bin\Debug\net8.0\Shop.Domain.dll
+C:\Users\ypono\source\repos\Shop\Shop.Domain\bin\Debug\net8.0\Shop.Domain.pdb
+C:\Users\ypono\source\repos\Shop\Shop.Domain\obj\Debug\net8.0\Shop.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ypono\source\repos\Shop\Shop.Domain\obj\Debug\net8.0\Shop.Domain.AssemblyInfoInputs.cache
+C:\Users\ypono\source\repos\Shop\Shop.Domain\obj\Debug\net8.0\Shop.Domain.AssemblyInfo.cs
+C:\Users\ypono\source\repos\Shop\Shop.Domain\obj\Debug\net8.0\Shop.Domain.csproj.CoreCompileInputs.cache
+C:\Users\ypono\source\repos\Shop\Shop.Domain\obj\Debug\net8.0\Shop.Domain.dll
+C:\Users\ypono\source\repos\Shop\Shop.Domain\obj\Debug\net8.0\refint\Shop.Domain.dll
+C:\Users\ypono\source\repos\Shop\Shop.Domain\obj\Debug\net8.0\Shop.Domain.pdb
+C:\Users\ypono\source\repos\Shop\Shop.Domain\obj\Debug\net8.0\ref\Shop.Domain.dll
