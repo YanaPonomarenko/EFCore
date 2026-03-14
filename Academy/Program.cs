@@ -1,105 +1,74 @@
-﻿using Academy.Context;
-using Academy.Group.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Academy.Services;
+using System;
 
-namespace Academy;
+var subjectService = new SubjectServices();
+var gradeService = new GradeServices();
 
-internal class Program
+while (true)
 {
-    static void Main(string[] args)
+    Console.WriteLine("\n ACADEMY MANAGEMENT SYSTEM ");
+    Console.WriteLine("1. Add Subject");
+    Console.WriteLine("2. Show All Subjects");
+    Console.WriteLine("3. Update Subject");
+    Console.WriteLine("4. Delete Subject");
+    Console.WriteLine("5. Add Grade");
+    Console.WriteLine("6. Show Student Grades");
+    Console.WriteLine("7. Update Grade");
+    Console.WriteLine("8. Delete Grade");
+    Console.WriteLine("0. Exit");
+    Console.Write("\nSelect an option: ");
+
+    var choice = Console.ReadLine();
+    if (choice == "0") break;
+
+    try
     {
-        var services = new ServiceCollection();
-
-        services.AddDbContext<AcademyDbContext>(options =>
+        switch (choice)
         {
-            DbContextConfigurator.Configure(options);
-        });
+            case "1":
+                Console.Write("Name: "); string name = Console.ReadLine()!;
+                Console.Write("Description: "); string? desc = Console.ReadLine();
+                subjectService.AddSubject(name, desc);
+                Console.WriteLine("Subject added!");
+                break;
 
-        
+            case "2":
+                var subjects = subjectService.GetAllSubjects();
+                foreach (var s in subjects) Console.WriteLine($"ID: {s.Id} | {s.Name} ({s.Description})");
+                break;
 
-        var provider = services.BuildServiceProvider();
+            case "4":
+                Console.Write("Enter Subject ID to delete: ");
+                int delSubId = int.Parse(Console.ReadLine()!);
+                subjectService.DeleteSubject(delSubId);
+                Console.WriteLine("Subject deleted!");
+                break;
 
-        using var scope = provider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<AcademyDbContext>();
+            case "5":
+                Console.Write("Student ID: "); int stId = int.Parse(Console.ReadLine()!);
+                Console.Write("Subject ID: "); int subId = int.Parse(Console.ReadLine()!);
+                Console.Write("Grade (1-12): "); int val = int.Parse(Console.ReadLine()!);
+                gradeService.AddGrade(stId, subId, val);
+                Console.WriteLine("Grade added!");
+                break;
 
-        if (context.Database.CanConnect())
-            Console.WriteLine("Пiдключення до БД встановлено");
-        else
-            Console.WriteLine("Не вдалось підключитись до БД");
+            case "6":
+                Console.Write("Enter Student ID: ");
+                int studentId = int.Parse(Console.ReadLine()!);
+                var grades = gradeService.GetGradesForStudent(studentId);
+                foreach (var g in grades) Console.WriteLine($"Grade ID: {g.Id} | Subject: {g.SubjectId} | Value: {g.Value}");
+                break;
+
+            default:
+                Console.WriteLine("Invalid option!");
+                break;
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(ex.Message);
+        Console.ResetColor();
     }
 }
 
-
-
-
-    //{
-    //    //
-    //    var configuration = new ConfigurationBuilder()
-    //        .SetBasePath(Directory.GetCurrentDirectory())
-    //        .AddJsonFile("appsettings.json",optional: false)
-    //        .Build();
-    //    var optionsBuilder = new DbContextOptionsBuilder<AcademyDbContext>();
-    //    optionsBuilder.UseSqlServer(configuration.GetConnectionString("MSSQLConnection"));
-    //
-
-    //using (var context = new AcademyDbContext(optionsBuilder.Options))
-    //{
-    //Group group = new Group();
-    //group.Name = "PV522";
-    //context.Groups.Add(group);
-    //context.SaveChanges();
-    //var gr1= context.Groups.FirstOrDefault(group => group.Id == 1);
-    //Console.WriteLine(gr1.Name);
-
-    //Student st1 = new Student();
-    //st1.Name = "John";
-    //st1.Surname = "Surname3";
-    //st1.GroupId = 2;
-    //context.Add(st1);
-    //context.SaveChanges();
-
-    //практика 25.02
-    //    Group group = new Group();
-    //    group.Name = "PV522";
-    //    context.Groups.Add(group);
-    //    context.SaveChanges();
-
-    //    Student st1 = new Student();
-    //    st1.Name = "Steve";
-    //    st1.Surname = "Surname3";
-    //    st1.GroupId = group.Id; 
-    //    context.Add(st1);
-    //    context.SaveChanges();
-
-    //    var students = context.Students
-    //        .Where(st => st.GroupId==group.Id)
-    //        .Include(st => st.Group)
-    //        .ToList();
-
-    //    students.ForEach(st =>
-    //    {
-    //        Console.WriteLine(st.Name);
-    //        Console.WriteLine(st.Group.Name);
-    //    });
-    //}
-
-    //using(var context = new AcademyDbContext())
-    //{
-    //context.Database.EnsureCreated();
-    //context.Database.EnsureDeleted();
-    //var student = new Student();
-    //Console.WriteLine("Enter name");
-    //student.Name = Console.ReadLine();
-    //Console.WriteLine("Enter surname");
-    //student.Surname = Console.ReadLine();
-    //context.Students.Add(student);
-    //context.SaveChanges();
-    //var student = context.Students.FirstOrDefault(st => st.Id == 1);
-    //if(student!=null)
-    //{
-    //Console.WriteLine($"Name: {student.Name} {student.Surname}");
-    //}
-    //}
-    //}
-}
