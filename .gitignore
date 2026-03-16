@@ -1,0 +1,27 @@
+﻿## IDE
+.vs/
+*.user
+*.suo
+*.userosscache
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+
+## NuGet
+packages/
+*.nupkg
+
+## Project-specific
+Shop.Domain/obj/
+ShopApp/bin/
+ShopApp/obj/
+ShopApp/Migrations/*.Designer.cs
+
+## Temp files
+*.log
+*.tmp
+*.cache
+*.pdb
