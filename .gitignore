@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿# Visual Studio
 .vs/
 
@@ -28,3 +29,32 @@ packages/
 
 # EF
 *.sourcelink.json
+=======
+﻿## IDE
+.vs/
+*.user
+*.suo
+*.userosscache
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+
+## NuGet
+packages/
+*.nupkg
+
+## Project-specific
+Shop.Domain/obj/
+ShopApp/bin/
+ShopApp/obj/
+ShopApp/Migrations/*.Designer.cs
+
+## Temp files
+*.log
+*.tmp
+*.cache
+*.pdb
+>>>>>>> cf6df6a3cd631c7e641991c630e9dfc12b34d737
