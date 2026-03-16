@@ -15,6 +15,8 @@ public class ShopDbContext:DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<CategoryProduct> CategoryProducts { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
     public ShopDbContext(DbContextOptions<ShopDbContext> options): base(options)
     {
     }

@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Shop.App.Services;
 using Shop.App.Data;
 using Shop.App.Configurators;
 using Shop.Domain.Entities;
 
 namespace Shop.App;
-
+//
 public class Program
 {
     public static void Main()
