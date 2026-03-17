@@ -10,22 +10,26 @@ namespace Shop.App.Managers;
 public class ShopManager
 {
     private readonly IProductService _productService;
+    private readonly ProductTestService _testService;
 
-    public ShopManager(IProductService productService)
+    public ShopManager(IProductService productService, ProductTestService testService)  // ЗМІНИ КОНСТРУКТОР
     {
         _productService = productService;
+        _testService = testService;
     }
 
     public void Run()
     {
         while (true)
         {
-            Console.WriteLine("\n=== Магазин ===");
+            Console.WriteLine("\nМагазин ");
             Console.WriteLine("1 - Всі продукти");
             Console.WriteLine("2 - Створити продукт");
             Console.WriteLine("3 - Оновити ціну");
             Console.WriteLine("4 - Видалити продукт");
             Console.WriteLine("5 - Продукт за ID");
+            Console.WriteLine("6 - Тестувати швидкість пошуку");
+            Console.WriteLine("7 - Заповнити тестовими даними");
             Console.WriteLine("0 - Вихід");
             Console.Write("Вибір: ");
 
@@ -52,6 +56,17 @@ public class ShopManager
                     break;
                 case 5:
                     ShowProductById();
+                    break;
+                case 6: 
+                    _testService.TestSearchPerformance();
+                    break;
+                case 7: 
+                    Console.Write("Скільки продуктів згенерувати? ");
+                    int count = int.Parse(Console.ReadLine());
+                    _testService.SeedProducts(count);
+                    break;
+                case 0:
+                    Console.WriteLine("Кінець програми");
                     break;
                 default:
                     Console.WriteLine("Невірний вибір");

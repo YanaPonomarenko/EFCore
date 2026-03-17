@@ -16,11 +16,12 @@ class Program
         var services = new ServiceCollection();
 
         services.AddDbContext<ShopDbContext>(options =>
-            options.UseSqlServer("Server=QQ12\\SQLEXPRESS;Database=ShopDb;Trusted_Connection=True;"));
+            options.UseSqlServer("Server = QQ12\\SQLEXPRESS; Database = ShopDb; Trusted_Connection = True; TrustServerCertificate = True; "));
 
         services.AddScoped<IProductRepository, ProductRepository>();
 
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ProductTestService>();
 
         services.AddScoped<ShopManager>();
 
