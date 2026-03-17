@@ -12,7 +12,7 @@ public class ShopManager
     private readonly IProductService _productService;
     private readonly ProductTestService _testService;
 
-    public ShopManager(IProductService productService, ProductTestService testService)  // ЗМІНИ КОНСТРУКТОР
+    public ShopManager(IProductService productService, ProductTestService testService)  
     {
         _productService = productService;
         _testService = testService;
