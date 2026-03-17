@@ -17,16 +17,26 @@ public class OrderServices
     {
         _context = context;
     }
-
-    public void PlaceOrder(int userId, List<(int productId, int quantity)> items)
+    //06.03
+    public void CreateOrder(int userId, List<(int productId, int quantity)> items)
     {
+        using var transaction = _context.Database.BeginTransaction();
         try
         {
-            var user = _context.Users.Find(userId);
-            if (user == null)
+            foreach (var item in items)
             {
-                Console.WriteLine($"Користувача з ID {userId} не знайдено");
-                return;
+                var product = _context.Products.Find(item.productId);
+                if (product == null)
+                {
+                    Console.WriteLine($"Продукт з ID {item.productId} не знайдено");
+                    return;
+                }
+
+                if (product.StockQuantity < item.quantity)
+                {
+                    Console.WriteLine($"Недостатньо {product.Name} на складі. Доступно: {product.StockQuantity}");
+                    return;
+                }
             }
             var order = new Order
             {
@@ -36,6 +46,74 @@ public class OrderServices
                 OrderItems = new List<OrderItem>()
             };
 
+            decimal totalAmount = 0;
+
+            foreach (var item in items)
+            {
+                var product = _context.Products.Find(item.productId);
+
+                var orderItem = new OrderItem
+                {
+                    ProductId = item.productId,
+                    Quantity = item.quantity,
+                    Price = product.Price,
+                    Order = order
+                };
+
+                order.OrderItems.Add(orderItem);
+                totalAmount += product.Price * item.quantity;
+                product.StockQuantity -= item.quantity;
+            }
+
+            order.TotalAmount = totalAmount;
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+            transaction.Commit();
+
+            Console.WriteLine($"Замовлення {order.Id} створено для користувача {userId}");
+            Console.WriteLine($"Сума: {totalAmount}");
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+            Console.WriteLine($"Помилка: {ex.Message}");
+        }
+    }
+
+    public void PlaceOrder(int userId, List<(int productId, int quantity)> items)
+    {
+        using var transaction = _context.Database.BeginTransaction();
+        try
+        {
+            var user = _context.Users.Find(userId);
+            if (user == null)
+            {
+                Console.WriteLine($"Користувача з ID {userId} не знайдено");
+                return;
+            }
+            //06.03 hw
+            foreach (var item in items)
+            {
+                var product = _context.Products.Find(item.productId);
+                if (product == null)
+                {
+                    Console.WriteLine($"Продукт з ID {item.productId} не знайдено");
+                    return;
+                }
+
+                if (product.StockQuantity < item.quantity)
+                {
+                    Console.WriteLine($"Недостатньо {product.Name} на складі. Доступно: {product.StockQuantity}");
+                    return; 
+                }
+            }
+                var order = new Order
+            {
+                UserId = userId,
+                OrderDate = DateTime.Now,
+                Status = "Нове",
+                OrderItems = new List<OrderItem>()
+            };
             decimal totalAmount = 0;
 
             foreach (var item in items)
@@ -63,17 +141,21 @@ public class OrderServices
                 order.OrderItems.Add(orderItem);
                 totalAmount += product.Price * item.quantity;
                 product.StockQuantity -= item.quantity;
+
             }
 
             order.TotalAmount = totalAmount;
             _context.Orders.Add(order);
             _context.SaveChanges();
+            transaction.Commit();
 
             Console.WriteLine($"Замовлення {order.Id} створено для {user.Name} {user.Surname}");
             Console.WriteLine($"Сума: {totalAmount}");
+
         }
         catch (Exception ex)
         {
+            transaction.Rollback(); 
             Console.WriteLine($"Помилка: {ex.Message}");
         }
     }
